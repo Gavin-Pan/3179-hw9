@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>FIT3179 Week 9 - Global Adult Obesity Rates (2023)</title>
+    <title>FIT3179 Week 9 Homework Task</title>
 
     <!-- Vega libraries -->
     <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
@@ -14,42 +14,26 @@
   </head>
   <body>
     <div class="container">
-      <header class="header">
-        <div>
-          <h1>Global Adult Obesity Rates (2023)</h1>
-          <div class="subtitle">
-            Choropleth with graticules &amp; Equal Earth projection (Vega-Lite)
-          </div>
-        </div>
-      </header>
+      <h1 class="site-title">Global Adult Obesity Rates 2023</h1>
 
       <section class="card">
         <div id="map"></div>
-        <div class="meta">
-          <strong>Notes:</strong>
-          <ul class="meta-list">
-            <li>
-              <em>Idiom:</em> Choropleth (variable is a
-              <strong>rate (%)</strong>).
-            </li>
-            <li><em>Projection:</em> Equal Earth for global comparison.</li>
-            <li>
-              <em>Layers:</em> Sphere (ocean), 30° graticules, country borders.
-            </li>
-            <li><em>Legend:</em> Sequential Blues, domain 0-60%.</li>
-          </ul>
-        </div>
-      </section>
-
-      <section class="footer">
-        <div>
-          <strong>Data:</strong> Obesity_Country_Rates.csv + Natural Earth
-          Admin-0 (110m).
-        </div>
-        <div>Spec: <code>specs/obesity_choropleth.vg.json</code></div>
+        <p class="eda">
+          <strong>Figure 1:</strong> This choropleth map that shows the share of
+          adults with BMI ≥ 30 in 2023. Unfortunately, not all countries like
+          Antartica are included in this analysis due to unavaliability. High
+          obesity rates are strongly visible in North America (United States,
+          Mexico) and parts of the Middle East & North Africa (e.g., Saudi
+          Arabia, Egypt). These regions appear in the darker orange-brown
+          shades, indicating obesity rates above 30-40%.
+        </p>
       </section>
     </div>
 
-    <script src="js/embed.js"></script>
+    <script>
+      vegaEmbed("#map", "js/obesity_choropleth.vg.json", {
+        actions: { export: true, source: true, compiled: false, editor: true },
+      }).catch(console.error);
+    </script>
   </body>
 </html>

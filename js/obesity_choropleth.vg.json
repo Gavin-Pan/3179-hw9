@@ -1,28 +1,19 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": {
-    "text": "Global Adult Obesity Rates by Country (2023)",
-    "subtitle": [
-      "Rate = % of adults with BMI ≥ 30",
-      "Data: Obesity_Country_Rates.csv + Natural Earth Admin-0 (110m)"
-    ]
-  },
+
   "width": 960,
   "height": 520,
   "projection": { "type": "equalEarth" },
   "layer": [
     {
       "data": { "sphere": true },
-      "mark": { "type": "geoshape", "fill": "#eaf4ff" }
+      "mark": { "type": "geoshape", "fill": "#f3f7fb" }
     },
     {
       "data": { "graticule": { "step": [30, 30] } },
-      "mark": {
-        "type": "geoshape",
-        "stroke": "#cfd8dc",
-        "strokeWidth": 0.5
-      }
+      "mark": { "type": "geoshape", "stroke": "#d1d5dd", "strokeWidth": 0.5 }
     },
+
     {
       "data": {
         "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/3_choropleth_map/js/ne_110m_admin_0_countries.topojson",
@@ -30,11 +21,11 @@
       },
       "transform": [
         {
-          "lookup": "properties.NAME",
+          "lookup": "properties.ADM0_A3",
           "from": {
             "data": { "url": "data/Obesity_Country_Rates.csv" },
-            "key": "country",
-            "fields": ["obesityRatesByCountry_obesityRate"]
+            "key": "cca3",
+            "fields": ["obesityRatesByCountry_obesityRate", "country"]
           }
         }
       ],
@@ -44,12 +35,13 @@
           "field": "obesityRatesByCountry_obesityRate",
           "type": "quantitative",
           "title": "Obesity rate (%)",
-          "scale": { "scheme": "blues", "domain": [0, 60] },
-          "legend": {
-            "orient": "right",
-            "tickCount": 6,
-            "grid": true
-          }
+          "scale": {
+            "type": "threshold",
+            "domain": [15, 30, 45, 60],
+            "range": ["#fee6ce", "#fdae6b", "#fd8d3c", "#e6550d", "#a63603"],
+            "unknown": "#EEEEEE"
+          },
+          "legend": { "orient": "right", "title": "Obesity rate (%)" }
         },
         "tooltip": [
           { "field": "properties.NAME", "type": "nominal", "title": "Country" },
@@ -64,11 +56,6 @@
     }
   ],
   "config": {
-    "axis": {
-      "grid": true,
-      "gridColor": "#e0e0e0",
-      "gridWidth": 0.6
-    },
     "background": "white",
     "view": { "stroke": "transparent" }
   }
