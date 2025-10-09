@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FIT3179 — Multiple Views (Wk9 + Wk10)</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="site-title">The Scarcity of Obesity</h1>
+
+      <section class="card">
+        <h2 class="center">Global Adult Obesity Rates 2023</h2>
+        <div id="map" aria-label="Choropleth: global adult obesity rate"></div>
+        <p class="eda">
+          This map that shows the share of adults with BMI ≥ 30 in 2023.
+          Unfortunately, not all countries like Antartica are included in this
+          analysis due to unavaliability of data.
+          <strong>High obesity rates</strong> are strongly visible in North
+          America (United States, Mexico) and parts of the Middle East & North
+          Africa (e.g., Saudi Arabia, Egypt). These regions appear in the darker
+          orange-brown shades, indicating obesity rates above 30-40%.
+        </p>
+      </section>
+
+      <section class="card mt-24">
+        <h2 class="center">Obesity Rate vs Sugar Consumption</h2>
+        <div
+          id="scatter"
+          aria-label="Scatter: obesity vs sugar consumption"
+        ></div>
+        <p class="eda">
+          Sugar can be an amending tool to help with lowering an individual's
+          obesity. With the limied data avalaible in terms of countries, it's
+          suggested that for the most part, couunties that engange in a lower
+          average sugar consumption (kg per capita) that their obesity rates are
+          lower. However, this is a weak association and several high-obesity
+          countries appear despite relatively modest sugar intake. This suggests
+          sugar alone does not explain cross-country obesity differences—other
+          factors like physical activity.These values are country averages
+          across available years; they show correlation, not causation.
+        </p>
+      </section>
+    </div>
+
+    <script>
+      vegaEmbed("#map", "js/obesity_choropleth.vg.json", {
+        actions: { export: true, source: true, compiled: false, editor: true },
+      }).catch(console.error);
+
+      vegaEmbed("#scatter", "js/obesity_sugar_scatter.vg.json", {
+        actions: { export: true, source: true, compiled: false, editor: true },
+      }).catch(console.error);
+    </script>
+  </body>
+</html>

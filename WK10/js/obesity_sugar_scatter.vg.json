@@ -1,0 +1,147 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 960,
+  "height": 520,
+  "data": { "url": "data/sugar_consumption_dataset.csv" },
+
+  "transform": [
+    {
+      "aggregate": [
+        {
+          "op": "mean",
+          "field": "Per_Capita_Sugar_Consumption",
+          "as": "avg_sugar"
+        },
+        { "op": "mean", "field": "Obesity_Rate", "as": "avg_obesity" }
+      ],
+      "groupby": ["Country"]
+    },
+    {
+      "joinaggregate": [
+        { "op": "mean", "field": "avg_sugar", "as": "mean_sugar" },
+        { "op": "mean", "field": "avg_obesity", "as": "mean_obesity" }
+      ]
+    },
+    {
+      "window": [{ "op": "rank", "as": "obesity_rank" }],
+      "sort": [{ "field": "avg_obesity", "order": "descending" }]
+    },
+    {
+      "calculate": "datum.obesity_rank <= 4 ? 'Top 4 worst obesity countries' : 'Other countries'",
+      "as": "Category"
+    }
+  ],
+
+  "encoding": {
+    "x": {
+      "field": "avg_sugar",
+      "type": "quantitative",
+      "title": "Average sugar consumption (kg per capita)",
+      "scale": { "domain": [36.6, 39.1] }
+    },
+    "y": {
+      "field": "avg_obesity",
+      "type": "quantitative",
+      "title": "Average obesity rate (%)",
+      "scale": { "domain": [21.8, 23.3] }
+    }
+  },
+
+  "layer": [
+    {
+      "mark": { "type": "rule", "clip": true },
+      "encoding": {
+        "x": { "field": "mean_sugar" },
+        "y": { "aggregate": "min", "field": "avg_obesity" },
+        "y2": { "aggregate": "max", "field": "avg_obesity" },
+        "color": { "value": "#94a3b8" }
+      }
+    },
+    {
+      "mark": { "type": "rule", "clip": true },
+      "encoding": {
+        "y": { "field": "mean_obesity" },
+        "x": { "aggregate": "min", "field": "avg_sugar" },
+        "x2": { "aggregate": "max", "field": "avg_sugar" },
+        "color": { "value": "#94a3b8" }
+      }
+    },
+
+    {
+      "params": [
+        {
+          "name": "cat_select",
+          "select": { "type": "point", "fields": ["Category"] },
+          "bind": "legend"
+        }
+      ],
+      "transform": [{ "filter": { "param": "cat_select" } }],
+      "mark": { "type": "point", "filled": true, "size": 80 },
+      "encoding": {
+        "color": {
+          "field": "Category",
+          "type": "nominal",
+          "title": "Countries",
+          "scale": {
+            "domain": ["Top 4 worst obesity countries", "Other countries"],
+            "range": ["#e11d48", "#60a5fa"]
+          }
+        },
+        "tooltip": [
+          { "field": "Country", "type": "nominal", "title": "Country" },
+          {
+            "field": "avg_sugar",
+            "type": "quantitative",
+            "format": ".1f",
+            "title": "Avg sugar (kg)"
+          },
+          {
+            "field": "avg_obesity",
+            "type": "quantitative",
+            "format": ".1f",
+            "title": "Avg obesity (%)"
+          }
+        ]
+      }
+    },
+
+    {
+      "transform": [{ "filter": "datum.Country == 'China'" }],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 10,
+        "dy": -40,
+        "fontSize": 12,
+        "fontStyle": "italic",
+        "color": "#374151"
+      },
+      "encoding": {
+        "x": { "field": "avg_sugar" },
+        "y": { "field": "avg_obesity" },
+        "text": {
+          "value": [
+            "China, alongside many other countries,",
+            "serves to have lower obesity rates",
+            "compared with the rest of",
+            "the data within the limited number",
+            "of countries available — suggesting a",
+            "tendency toward lower obesity rates",
+            "when consuming less average sugar."
+          ]
+        }
+      }
+    }
+  ],
+
+  "config": {
+    "background": "white",
+    "view": { "stroke": "transparent" },
+    "axis": {
+      "labelFontSize": 12,
+      "titleFontSize": 12,
+      "grid": false
+    }
+  }
+}

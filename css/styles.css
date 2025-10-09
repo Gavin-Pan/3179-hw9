@@ -1,12 +1,36 @@
+/* ----------------------------
+   Design tokens
+----------------------------- */
 :root {
   --bg: #ffffff;
-  --text: #0f172a;
-  --muted: #475569;
-  --card: #f8fafc;
+  --text: #0f172a; /* slate-900 */
+  --muted: #475569; /* slate-600 */
+  --card: #f8fafc; /* slate-50 */
+  --border: #e2e8f0; /* slate-200 */
+  --brand: #0ea5e9; /* sky-500 */
 }
-* {
+
+/* Optional: auto-dark-mode (can delete if undesired) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b1220;
+    --text: #e5e7eb; /* slate-200 */
+    --muted: #94a3b8; /* slate-400 */
+    --card: #0f172a; /* slate-900 */
+    --border: #1f2937; /* slate-800 */
+    --brand: #38bdf8; /* sky-400 */
+  }
+}
+
+/* ----------------------------
+   Base
+----------------------------- */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
+
 html,
 body {
   margin: 0;
@@ -14,69 +38,143 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell,
-    "Helvetica Neue", Arial, "Noto Sans";
+    "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
-.container {
-  max-width: 1100px;
-  margin: 24px auto 64px;
-  padding: 0 16px;
+
+img,
+svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
-.header {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-h1 {
-  font-size: 28px;
-  margin: 12px 0 4px;
-  text-align: center;
-}
-.subtitle {
-  color: var(--muted);
-  margin-bottom: 16px;
-}
-.card {
-  background: var(--card);
-  padding: 16px;
-  border-radius: 14px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-}
-#map {
-  width: 100%;
-}
-.meta {
-  margin-top: 18px;
-  font-size: 14px;
-  color: var(--muted);
-}
-ul.meta-list {
-  padding-left: 18px;
-}
-code {
-  background: #e2e8f0;
-  padding: 2px 6px;
-  border-radius: 6px;
-}
-.footer {
-  margin-top: 32px;
-  font-size: 13px;
-  color: var(--muted);
-}
+
 a {
-  color: #0ea5e9;
+  color: var(--brand);
   text-decoration: none;
 }
 a:hover {
   text-decoration: underline;
 }
+a:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
 
+/* ----------------------------
+   Layout
+----------------------------- */
+.container {
+  max-width: 1100px;
+  margin: 24px auto 64px;
+  padding: 0 16px;
+}
+
+.card {
+  background: var(--card);
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border);
+}
+
+.site-title,
+h1,
+h2,
+h3 {
+  margin: 12px 0 8px;
+  line-height: 1.25;
+}
+.site-title {
+  font-size: clamp(22px, 4vw, 32px);
+  text-align: center;
+}
+
+/* Two-up layout helper (optional) */
+.vis-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 900px) {
+  .vis-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ----------------------------
+   Visualisation containers
+----------------------------- */
+#map,
+#scatter {
+  width: 100%;
+  min-height: 420px; /* ensures a pleasant initial height */
+}
+
+/* Vega-Embed toolbar tweaks (the three-dots menu) */
+.vega-actions a {
+  font-size: 12px;
+}
+
+/* ----------------------------
+   Figure/caption text
+----------------------------- */
 .eda {
-  margin: 20px auto; /* space above and below + center horizontally */
+  margin: 16px auto 0;
   font-size: 15px;
-  line-height: 1.6;
-  color: #334155;
-  max-width: 60ch; /* ~10–12 words per line */
-  text-align: justify; /* optional: evenly align edges */
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 70ch; /* readable line length */
+  text-wrap: pretty;
+}
+
+code,
+pre code {
+  background: #e2e8f0;
+  color: #0f172a;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono",
+    monospace;
+  font-size: 0.95em;
+}
+@media (prefers-color-scheme: dark) {
+  code,
+  pre code {
+    background: #111827;
+    color: #e5e7eb;
+  }
+}
+
+/* ----------------------------
+   Utilities
+----------------------------- */
+.mt-24 {
+  margin-top: 24px;
+}
+.center {
+  text-align: center;
+}
+
+/* Focus outlines for any interactive custom controls if added later */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* ----------------------------
+   Print (neat PDF export)
+----------------------------- */
+@media print {
+  .card {
+    box-shadow: none;
+  }
+  a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 0.9em;
+  }
 }

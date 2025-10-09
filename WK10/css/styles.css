@@ -1,0 +1,76 @@
+/* ---------- Design tokens ---------- */
+:root {
+  --bg: #ffffff;
+  --text: #0f172a; /* slate-900 */
+  --muted: #475569; /* slate-600 */
+  --card: #f8fafc; /* slate-50 */
+  --border: #e2e8f0; /* slate-200 */
+  --brand: #0ea5e9; /* sky-500 */
+}
+
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell,
+    "Helvetica Neue", Arial, "Noto Sans";
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: var(--brand);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 24px auto 64px;
+  padding: 0 16px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.site-title {
+  font-size: clamp(22px, 4vw, 32px);
+  text-align: center;
+  margin: 12px 0 8px;
+}
+
+/* ---------- Vis containers ---------- */
+#scatter {
+  width: 100%;
+  min-height: 480px;
+}
+
+/* Vega-Embed toolbar */
+.vega-actions a {
+  font-size: 12px;
+}
+
+/* ---------- Caption ---------- */
+.eda {
+  margin: 12px auto 0;
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 70ch;
+}
