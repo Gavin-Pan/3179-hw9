@@ -27,7 +27,7 @@
       "sort": [{ "field": "avg_obesity", "order": "descending" }]
     },
     {
-      "calculate": "datum.obesity_rank <= 4 ? 'Top 4 worst obesity countries' : 'Other countries'",
+      "calculate": "datum.obesity_rank <= 1 ? 'Worst obesity country' : 'Other countries'",
       "as": "Category"
     }
   ],
@@ -83,7 +83,7 @@
           "type": "nominal",
           "title": "Countries",
           "scale": {
-            "domain": ["Top 4 worst obesity countries", "Other countries"],
+            "domain": ["Worst obesity country", "Other countries"],
             "range": ["#e11d48", "#60a5fa"]
           }
         },
@@ -138,10 +138,6 @@
   "config": {
     "background": "white",
     "view": { "stroke": "transparent" },
-    "axis": {
-      "labelFontSize": 12,
-      "titleFontSize": 12,
-      "grid": true
-    }
+    "axis": { "labelFontSize": 12, "titleFontSize": 12, "grid": true }
   }
 }
