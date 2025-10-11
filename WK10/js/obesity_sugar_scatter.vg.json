@@ -141,7 +141,7 @@
     "axis": {
       "labelFontSize": 12,
       "titleFontSize": 12,
-      "grid": false
+      "grid": true
     }
   }
 }

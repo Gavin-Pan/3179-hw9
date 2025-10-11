@@ -38,7 +38,7 @@
           "scale": {
             "type": "threshold",
             "domain": [15, 30, 45, 60],
-            "range": ["#fee6ce", "#fdae6b", "#fd8d3c", "#e6550d", "#a63603"],
+            "range": ["#f7e6d7", "#d9b38c", "#b07d57", "#8c510a", "#5a2e0c"],
             "unknown": "#EEEEEE"
           },
           "legend": { "orient": "right", "title": "Obesity rate (%)" }
